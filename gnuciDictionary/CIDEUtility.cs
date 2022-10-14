@@ -30,6 +30,7 @@ namespace gnuciDictionary
 				var def = Regex.Match(v, "<def>(.*)</def>").Groups[1]?.Value;
 				def = StringExtensions.ReplaceAll(def, "<.+?>", "");
 				var plural = Regex.Match(v, "<plw>(.*)</plw>").Groups[1]?.Value;
+				var wordType = Regex.Match(v, "<pos>(.*)</pos>").Groups[1]?.Value;
 				var peek = gnuciDictionary.EnglishDictionary.GetPeekValue(val);
 				if (!data.TryGetValue(peek, out var bucket))
 				{
@@ -42,7 +43,7 @@ namespace gnuciDictionary
 					bucket[slug] = list;
 				}
 
-				var word = new Word(val, def, plural);
+				var word = new Word(val, def, plural, wordType);
 				Logger.Debug($"{peek}: {word}");
 				list.Add(word);
 			}
